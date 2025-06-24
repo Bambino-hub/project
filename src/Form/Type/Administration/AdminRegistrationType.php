@@ -28,8 +28,7 @@ class AdminRegistrationType extends AbstractType
             ])
             ->add('password', PasswordType::class, [
                 'label' => 'Password'
-            ])
-            ->add('Save', SubmitType::class, []);
+            ]);
     }
     public function configureOptions(OptionsResolver $resolver)
     {

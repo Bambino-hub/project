@@ -9,13 +9,50 @@ security:
             entity:
                 class: App\Entity\User
                 property: email
+
+        app_admin_provider:
+            entity:
+                class: App\Entity\Admin
+                property: firstName
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        
+
+        # Admin firewall
+        admin:
+            pattern: ^/admin
+            lazy: true
+            provider: app_admin_provider
+            custom_authenticator: App\Security\AdminAuthenticator
+            entry_point: App\Security\AdminAuthenticator
+            logout:
+                path: admin_logout
+                # where to redirect after logout
+                target: home
+
+        # user  firewall
+        user: 
+            pattern: ^/
             lazy: true
             provider: app_user_provider
+            custom_authenticator: App\Security\UserAuthenticator
+            entry_point: App\Security\UserAuthenticator
+            logout:
+                path: user_logout
+                # where to redirect after logout
+                target: home
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                # by default, the feature is enabled by checking a checkbox in the
+                # login form, uncomment the following line to always enable it.
+                always_remember_me: true
+                #always_remember_me: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall

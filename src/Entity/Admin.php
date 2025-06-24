@@ -4,20 +4,21 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AdminRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: AdminRepository::class)]
-class Admin implements PasswordAuthenticatedUserInterface
+class Admin implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(length: 128, nullable: true)]
+    #[ORM\Column(length: 128, nullable: true, unique: true)]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 128, nullable: true)]
@@ -105,9 +106,16 @@ class Admin implements PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // guarantee every user at least has ROLE_ADMIN
+        $roles[] = 'ROLE_ADMIN';
 
         return array_unique($roles);
     }
+
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->firstName;
+    }
+
+    public function eraseCredentials(): void {}
 }

@@ -6,6 +6,30 @@
 {% block body %}
 	<div class="container">
 		<h1>Admin Registration</h1>
-		{{form(adminForm)}}
-		</div>
-	{% endblock %}
+		{{ form_start(adminForm) }}
+
+		<p>
+			{{ form_label(adminForm.email) }}
+			{{ form_widget(adminForm.email) }}
+			{{ form_errors(adminForm.email) }}
+		</p>
+		<p>
+			{{ form_label(adminForm.firstName) }}
+			{{ form_widget(adminForm.firstName) }}
+			{{ form_errors(adminForm.firstName) }}
+		</p>
+		<p>
+			{{ form_label(adminForm.lastName) }}
+			{{ form_widget(adminForm.lastName) }}
+			{{ form_errors(adminForm.lastName) }}
+		</p>
+		<p>
+			{{ form_label(adminForm.password) }}
+			{{ form_widget(adminForm.password) }}
+			{{ form_errors(adminForm.password) }}
+		</p>
+		<button type="submit">Register</button>
+
+		{{ form_end(adminForm) }}
+	</div>
+{% endblock %}

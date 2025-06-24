@@ -2,7 +2,12 @@
 
 namespace App\Form\Fields\Administration;
 
+use App\Entity\Admin;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+#[UniqueEntity('email', message: 'Cet email est déjà utilisé.', entityClass: Admin::class)]
+#[UniqueEntity('firstName', message: 'Ce prénom est déjà utilisé.', entityClass: Admin::class)]
 
 class AdminRegistrationFields
 {

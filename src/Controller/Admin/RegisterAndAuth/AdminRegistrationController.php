@@ -4,7 +4,6 @@ namespace App\Controller\Admin\RegisterAndAuth;
 
 use App\Entity\Admin;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\BrowserKit\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -26,15 +25,15 @@ class AdminRegistrationController extends AbstractController
     public function adminRegistration(): Response
     {
         $adminRegistrationFields = new AdminRegistrationFields;
+        // Create a new Admin entity
+        $adminEntity = new Admin();
+
         $adminForm = $this->createForm(AdminRegistrationType::class, $adminRegistrationFields);
         $adminForm->handleRequest($this->requestStack->getCurrentRequest());
 
         // Handle the form submission
         // Check if the form is submitted and valid
         if ($adminForm->isSubmitted() && $adminForm->isValid()) {
-
-            // Create a new Admin entity
-            $adminEntity = new Admin();
 
             $adminEntity->setFirstName($adminRegistrationFields->getFirstName());
             $adminEntity->setLastName($adminRegistrationFields->getLastName());
@@ -43,7 +42,6 @@ class AdminRegistrationController extends AbstractController
                 $adminEntity,
                 $adminRegistrationFields->getPassword()
             ));
-            $adminEntity->setRoles(['ROLE_ADMIN']);
 
             $this->entityManager->persist($adminEntity);
             $this->entityManager->flush();

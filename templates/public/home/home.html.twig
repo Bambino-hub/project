@@ -4,6 +4,11 @@
 {% endblock %}
 
 {% block body %}
+{% if app.user %}
+	<details>
 
-	<h1>Bonjour bienvenue sur notre site web</h1>
-{% endblock %}
+		<summary>{{app.user.email}}</summary>
+		<p></p>
+		<a href="{{path('user_logout')}}" style="color: red;">Deconnexion</a>
+	</p>
+</details>{% endif %}<h1>Bonjour bienvenue sur notre site web</h1>{% endblock %}
