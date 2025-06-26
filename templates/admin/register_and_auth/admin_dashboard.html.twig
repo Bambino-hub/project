@@ -1,0 +1,21 @@
+{% extends "base.html.twig" %}
+
+{% block title %}DashBoard
+{% endblock %}
+
+
+{% block body %}
+	{% if app.user %}
+		<details>
+			<summary>{{app.user.firstName}}</summary>
+			<p>
+				<a href="{{path('admin_logout')}}">Deconnexion</a>
+			</p>
+
+		</details>
+
+	{% endif %}
+
+
+	<h1>Bienvenue sur le dashboard</h1>
+{% endblock %}

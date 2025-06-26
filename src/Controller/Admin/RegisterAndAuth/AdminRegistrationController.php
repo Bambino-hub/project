@@ -9,19 +9,23 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Form\Fields\Administration\AdminRegistrationFields;
 use App\Form\Type\Administration\AdminRegistrationType;
+use App\Security\UserAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class AdminRegistrationController extends AbstractController
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
         private readonly UserPasswordHasherInterface $passwordHasher,
-        private readonly RequestStack $requestStack
+        private readonly RequestStack $requestStack,
+        private readonly UserAuthenticator $userAuthenticator,
+        private readonly UserAuthenticatorInterface $authenticator
     ) {}
 
 
-    #[Route("/admin/register", name: "admin_register")]
+    #[Route("/backstage/register", name: "admin_register")]
     public function adminRegistration(): Response
     {
         $adminRegistrationFields = new AdminRegistrationFields;
@@ -45,8 +49,21 @@ class AdminRegistrationController extends AbstractController
 
             $this->entityManager->persist($adminEntity);
             $this->entityManager->flush();
-            $this->addFlash('success', 'Admin registered successfully!');
-            return $this->redirectToRoute('home');
+            // $this->addFlash('success', 'Admin registered successfully!');
+
+            // Redirect admin after register
+            try {
+                $this->authenticator->authenticateUser(
+                    $adminEntity,
+                    $this->userAuthenticator,
+                    $this->requestStack->getCurrentRequest()
+                );
+                return $this->redirectToRoute('admin_dashboard');
+            } catch (\Exception $e) {
+                // Handle authentication failure
+                $this->addFlash('error', 'Authentication failed: ' . $e->getMessage());
+                return $this->redirectToRoute('admin_registration');
+            }
         }
         return $this->render('admin/register_and_auth/admin_registration.html.twig', [
             'adminForm' => $adminForm

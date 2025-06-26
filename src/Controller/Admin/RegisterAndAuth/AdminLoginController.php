@@ -7,13 +7,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class AdminSecurityController extends AbstractController
+class AdminLoginController extends AbstractController
 {
-    #[Route(path: '/admin/login', name: 'admin_login')]
+    #[Route(path: '/backstage/login', name: 'admin_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('admin_dashboard');
         }
 
         // get the login error if there is one
@@ -21,7 +21,7 @@ class AdminSecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('admin/register_and_auth/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
     #[Route(path: '/admin/logout', name: 'admin_logout')]

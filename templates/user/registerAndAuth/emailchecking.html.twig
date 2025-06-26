@@ -1,0 +1,19 @@
+{% extends "base.html.twig" %}
+
+
+{% block title %}Email checking
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<h1>Email checking...</h1>
+		{{ form_start(emailForm)}}
+		<div>
+			{{form_label(emailForm.email)}}
+			{{form_widget(emailForm.email)}}
+			{{form_errors(emailForm.email)}}
+		</div>
+		<button type='submit'>Envoyer</button>
+		{{form_end(emailForm)}}
+	</div>
+{% endblock %}

@@ -21,7 +21,7 @@ class UserLoginController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('/public/user/registerAndAuth/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('user/registerAndAuth/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
     #[Route(path: '/logout', name: 'user_logout')]

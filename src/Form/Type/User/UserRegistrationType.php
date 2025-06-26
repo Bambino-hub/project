@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Form\Type\Public;
+namespace App\Form\Type\User;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use App\Form\Fields\Public\UserRegistrationField;
+use App\Form\Fields\User\UserRegistrationField;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;

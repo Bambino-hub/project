@@ -5,10 +5,10 @@ namespace App\Controller\User\RegisterAndAuth;
 use App\Entity\User;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
-use App\Form\Type\Public\UserRegistrationType;
+use App\Form\Type\User\UserRegistrationType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Form\Fields\Public\UserRegistrationField;
+use App\Form\Fields\User\UserRegistrationField;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -63,7 +63,7 @@ class UserRegistrationController extends AbstractController
         }
 
         return $this->render(
-            'public/user/registerAndAuth/userRegistration.html.twig',
+            'user/registerAndAuth/userRegistration.html.twig',
             [
                 'userForm' => $userForm
             ]
